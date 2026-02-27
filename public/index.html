@@ -1,1 +1,150 @@
-public/index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  
+  body {
+    background: #0d0d0d;
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+
+  .logo {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 8px;
+    letter-spacing: -0.03em;
+  }
+
+  .logo span { color: #4f8eff; }
+
+  .tagline {
+    color: #555;
+    font-size: 0.9rem;
+    margin-bottom: 40px;
+  }
+
+  .search-wrap {
+    width: 100%;
+    max-width: 580px;
+    position: relative;
+  }
+
+  input {
+    width: 100%;
+    padding: 18px 60px 18px 24px;
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 1rem;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  input:focus { border-color: #4f8eff; }
+  input::placeholder { color: #444; }
+
+  button {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #4f8eff;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+
+  button:hover { background: #3a7aff; }
+
+  button svg { width: 18px; height: 18px; fill: #fff; }
+
+  .quick-links {
+    margin-top: 28px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .quick-link {
+    background: #1a1a1a;
+    border: 1px solid #2a2a2a;
+    color: #888;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .quick-link:hover {
+    border-color: #4f8eff;
+    color: #4f8eff;
+  }
+</style>
+</head>
+<body>
+
+<div class="logo">browse<span>.</span></div>
+<div class="tagline">your internet, unrestricted</div>
+
+<div class="search-wrap">
+  <input type="text" id="urlInput" placeholder="Search Google or enter a URL..." autofocus />
+  <button onclick="go()">
+    <svg viewBox="0 0 24 24"><path d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+  </button>
+</div>
+
+<div class="quick-links">
+  <a class="quick-link" onclick="load('https://google.com')">Google</a>
+  <a class="quick-link" onclick="load('https://youtube.com')">YouTube</a>
+  <a class="quick-link" onclick="load('https://reddit.com')">Reddit</a>
+  <a class="quick-link" onclick="load('https://discord.com')">Discord</a>
+  <a class="quick-link" onclick="load('https://twitter.com')">Twitter</a>
+  <a class="quick-link" onclick="load('https://twitch.tv')">Twitch</a>
+</div>
+
+<script>
+  function load(url) {
+    window.location.href = '/proxy?url=' + encodeURIComponent(url);
+  }
+
+  function go() {
+    let val = document.getElementById('urlInput').value.trim();
+    if (!val) return;
+
+    // If it looks like a search query, use Google
+    if (!val.includes('.') || val.includes(' ')) {
+      val = 'https://www.google.com/search?q=' + encodeURIComponent(val);
+    }
+
+    load(val);
+  }
+
+  document.getElementById('urlInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') go();
+  });
+</script>
+</body>
+</html>
